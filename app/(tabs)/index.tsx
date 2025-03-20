@@ -1,74 +1,71 @@
-import { Image, StyleSheet, Platform } from 'react-native';
+// https://ideogram.ai/assets/image/lossless/response/Yx_5cuNqT2u6hcfUnoqCCA
+//https://ideogram.ai/assets/progressive-image/balanced/response/UgGrTdZUSkeAUvGYdSBcIw
 
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
+import { StyleSheet, Text, View, Image, Dimensions } from 'react-native'
+import React from 'react'
+import { Link } from 'expo-router'
+import ParallaxScrollView from '@/components/ParallaxScrollView'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import { useWallpaper, Wallpaper } from '@/hooks/useWallpaper'
+import { ImageCard } from '@/components/ImageCard'
+import { FlatList, ScrollView } from 'react-native-gesture-handler'
 
-export default function HomeScreen() {
+const { width } = Dimensions.get('window');
+
+const Explore = () => {
+  const { wallpapers, loading, error } = useWallpaper();
+
+  if (loading) return <Text>Loading...</Text>;
+  if (error) return <Text>{error}</Text>;
+
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12'
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          Tap the Explore tab to learn more about what's included in this starter app.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          When you're ready, run{' '}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
-  );
+    <SafeAreaView style={{flex:1}}>
+      <View style={{flex: 1}}>
+        <ParallaxScrollView
+          headerBackgroundColor={{ dark: '#1D3D47', light: '#D0D0D0' }}
+          headerImage={
+            <Image
+              style={{ width, height: width }}
+              source={{ uri: 'https://ideogram.ai/assets/progressive-image/balanced/response/UgGrTdZUSkeAUvGYdSBcIw' }}
+              resizeMode="cover"
+            />
+          }
+        >
+          <View>
+            <Text style={{ fontSize: 20, marginBottom: 20 }}>Explore Page</Text>
+            
+            <View style={styles.imageContainer}>
+              {wallpapers.map((w: Wallpaper, index) => (
+                <View style={styles.imageWrapper} key={index}>
+                  <ImageCard wallpaper={w} />
+                </View>
+              ))}
+            </View>
+          </View>
+        </ParallaxScrollView>
+      </View>
+
+      {/* <Link href={"/accountInfo"}>
+        <Text> Go to account info</Text>
+      </Link> */}
+
+
+    </SafeAreaView>
+  )
 }
 
+export default Explore
+
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
+  imageContainer: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    width: "100%",
+    justifyContent: "space-between"
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
-  },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
-  },
-});
+  imageWrapper: {
+    width: '48%', 
+    marginBottom: 10,
+    gap : 10
+  }
+})
