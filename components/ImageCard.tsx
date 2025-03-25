@@ -1,15 +1,17 @@
 import type { Wallpaper } from "@/hooks/useWallpaper";
-import { View ,Image,StyleSheet } from "react-native";
+import { View ,Image,StyleSheet, Pressable } from "react-native";
 import { ThemedText } from "./ThemedText";
 import { IconSymbol } from "./ui/IconSymbol";
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Entypo from '@expo/vector-icons/Entypo';
 
-export function ImageCard({wallpaper} : {
+export function ImageCard({wallpaper ,onPress} : {
     wallpaper: Wallpaper
+    onPress :() => void
 }) {
     return(
-        <View>
+        <Pressable onPress={onPress}>
+            <View>
             <Image  source = {{uri: wallpaper.url}} style= {styles.image}/>  
             <View style={styles.labelContainer}>
             <ThemedText style={styles.label}>{wallpaper.name}</ThemedText>
@@ -17,6 +19,9 @@ export function ImageCard({wallpaper} : {
             {/* <Entypo name="heart" size={24} color="red" /> */}
             </View>
         </View>
+
+        </Pressable>
+        
     )
 }
 
@@ -25,7 +30,7 @@ const styles = StyleSheet.create({
    image:{
      flex:1,
      height: 300,
-     padding:10,
+     
      borderRadius:5
    },
    labelContainer:{

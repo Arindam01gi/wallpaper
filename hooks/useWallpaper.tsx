@@ -15,13 +15,13 @@ export function useWallpaper(): { wallpapers: Wallpaper[], loading: boolean, err
     const fetchWallpapers = async () => {
       try {
         const apiKey ="49436091-6b2642ed15fcaf2676bc2c579";
-        console.log(apiKey);
+        // console.log(apiKey);
         if (!apiKey) {
           throw new Error('API key not found');
         }
 
         const response = await fetch(
-          `https://pixabay.com/api/?key=${apiKey}&q=nature&image_type=photo&per_page=20`
+          `https://pixabay.com/api/?key=${apiKey}&q=nature&image_type=photo&per_page=100`
         );
         const data = await response.json();
         setWallpapers(data.hits.map((hit: any) => ({

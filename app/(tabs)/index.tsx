@@ -2,18 +2,20 @@
 //https://ideogram.ai/assets/progressive-image/balanced/response/UgGrTdZUSkeAUvGYdSBcIw
 
 import { StyleSheet, Text, View, Image, Dimensions } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'expo-router'
 import ParallaxScrollView from '@/components/ParallaxScrollView'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useWallpaper, Wallpaper } from '@/hooks/useWallpaper'
 import { ImageCard } from '@/components/ImageCard'
 import { FlatList, ScrollView } from 'react-native-gesture-handler'
+import DownloadPicture from '@/components/DownloadPicture'
 
 const { width } = Dimensions.get('window');
 
 const Explore = () => {
   const { wallpapers, loading, error } = useWallpaper();
+  const [selectedWallpaper,setSelectedWallpaper] = useState<null | Wallpaper>(null)
 
   if (loading) return <Text>Loading...</Text>;
   if (error) return <Text>{error}</Text>;
@@ -26,24 +28,33 @@ const Explore = () => {
           headerImage={
             <Image
               style={{ width, height: width }}
-              source={{ uri: 'https://ideogram.ai/assets/progressive-image/balanced/response/UgGrTdZUSkeAUvGYdSBcIw' }}
+              source={{ uri: wallpapers[0].url }}
               resizeMode="cover"
             />
           }
         >
-          <View>
+          <View style={{margin:-16}}>
             <Text style={{ fontSize: 20, marginBottom: 20 }}>Explore Page</Text>
             
             <View style={styles.imageContainer}>
               {wallpapers.map((w: Wallpaper, index) => (
                 <View style={styles.imageWrapper} key={index}>
-                  <ImageCard wallpaper={w} />
+                  <ImageCard wallpaper={w} onPress={() =>{
+                    console.log('pressed',w.name)
+                    setSelectedWallpaper(w);
+                  }}/>
                 </View>
               ))}
             </View>
           </View>
         </ParallaxScrollView>
       </View>
+
+      {
+            selectedWallpaper && <DownloadPicture wallpaper ={selectedWallpaper} onClose={() =>{
+              setSelectedWallpaper(null)
+            }}/>
+          }
 
       {/* <Link href={"/accountInfo"}>
         <Text> Go to account info</Text>
@@ -61,11 +72,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     width: "100%",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
   },
   imageWrapper: {
     width: '48%', 
     marginBottom: 10,
-    gap : 10
+    
   }
 })
