@@ -19,6 +19,7 @@ const Explore = () => {
 
   if (loading) return <Text>Loading...</Text>;
   if (error) return <Text>{error}</Text>;
+  console.log(selectedWallpaper)
 
   return (
     <SafeAreaView style={{flex:1}}>

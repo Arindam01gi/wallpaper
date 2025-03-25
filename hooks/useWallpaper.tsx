@@ -3,7 +3,13 @@ import Constants from 'expo-constants';
 
 export interface Wallpaper {
     "url" :string,
-    "name" : string
+    "name" : string,
+    'user':string,
+    "userImage":string,
+    "downloads" : number,
+    "likes":number,
+    "imageWidth":number,
+    "imageHeight":number
 }
 
 export function useWallpaper(): { wallpapers: Wallpaper[], loading: boolean, error: string | null } {
@@ -27,6 +33,12 @@ export function useWallpaper(): { wallpapers: Wallpaper[], loading: boolean, err
         setWallpapers(data.hits.map((hit: any) => ({
           url: hit.webformatURL,
           name: hit.tags.split(',')[0].trim(),
+          user: hit.user,
+          userImage : hit.userImageURL,
+          downloads: hit.downloads,
+          likes:hit.likes,
+          imageWidth:hit.imageWidth,
+          imageHeight:hit.imageHeight
         })));
       } catch (err) {
         setError('Failed to fetch wallpapers');
