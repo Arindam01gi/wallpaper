@@ -10,6 +10,7 @@ import { useWallpaper, Wallpaper } from '@/hooks/useWallpaper'
 import { ImageCard } from '@/components/ImageCard'
 import { FlatList, ScrollView } from 'react-native-gesture-handler'
 import DownloadPicture from '@/components/DownloadPicture'
+import SplitView from '@/components/SplitView'
 
 const { width } = Dimensions.get('window');
 
@@ -34,7 +35,7 @@ const Explore = () => {
             />
           }
         >
-          <View style={{margin:-16}}>
+          {/* <View style={{margin:-16}}>
             <Text style={{ fontSize: 20, marginBottom: 20 }}>Explore Page</Text>
             
             <View style={styles.imageContainer}>
@@ -47,19 +48,21 @@ const Explore = () => {
                 </View>
               ))}
             </View>
-          </View>
+          </View> */}
+          <SplitView onWallpaperSelect={(w : Wallpaper) => setSelectedWallpaper(w)}/>
         </ParallaxScrollView>
       </View>
 
-      {
-            selectedWallpaper && <DownloadPicture wallpaper ={selectedWallpaper} onClose={() =>{
-              setSelectedWallpaper(null)
-            }}/>
-          }
-
+      
       {/* <Link href={"/accountInfo"}>
         <Text> Go to account info</Text>
       </Link> */}
+
+    {
+      selectedWallpaper && <DownloadPicture wallpaper={selectedWallpaper} onClose={() =>{
+        setSelectedWallpaper(null)
+      }}/>
+    }
 
 
     </SafeAreaView>
