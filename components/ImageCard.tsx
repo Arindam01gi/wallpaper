@@ -1,3 +1,4 @@
+import { useState } from "react";
 import type { Wallpaper } from "@/hooks/useWallpaper";
 import { View ,Image,StyleSheet, Pressable } from "react-native";
 import { ThemedText } from "./ThemedText";
@@ -9,14 +10,20 @@ export function ImageCard({wallpaper ,onPress} : {
     wallpaper: Wallpaper
     onPress :() => void
 }) {
+    const [isLiked,setIsLiked] = useState(false)
     return(
         <Pressable onPress={onPress}>
             <View>
             <Image  source = {{uri: wallpaper.url}} style= {styles.image}/>  
             <View style={styles.labelContainer}>
             <ThemedText style={styles.label}>{wallpaper.name}</ThemedText>
-            <AntDesign name="hearto" size={20} color="white" />
-            {/* <Entypo name="heart" size={24} color="red" /> */}
+            <Pressable onPress={() => setIsLiked(!isLiked)}>
+            <AntDesign 
+              name={isLiked ? 'heart' : 'hearto'} 
+              size={20} 
+              color={isLiked ? 'red' : 'white'} 
+            />
+            </Pressable>
             </View>
         </View>
 
@@ -28,9 +35,10 @@ export function ImageCard({wallpaper ,onPress} : {
 
 const styles = StyleSheet.create({
    image:{
-     flex:1,
-     height: 300,
-     
+    //  flex:1,
+    //  height: 300,
+    width:"100%",
+    aspectRatio: 1,
      borderRadius:5
    },
    labelContainer:{

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import Constants from 'expo-constants';
 
 export interface Wallpaper {
+    "id": string,
     "url" :string,
     "name" : string,
     'user':string,
@@ -27,7 +28,7 @@ export function useWallpaper(): { wallpapers: Wallpaper[], loading: boolean, err
         }
 
         const response = await fetch(
-          `https://pixabay.com/api/?key=${apiKey}&q=nature&image_type=photo&per_page=100`
+          `https://pixabay.com/api/?key=${apiKey}&q=nature&image_type=photo&per_page=200`
         );
         const data = await response.json();
         setWallpapers(data.hits.map((hit: any) => ({

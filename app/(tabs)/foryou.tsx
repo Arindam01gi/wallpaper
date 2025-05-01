@@ -9,8 +9,8 @@ export default function Tab() {
   return (
     <Tab.Navigator>
       <Tab.Screen name="Liked" component={Liked} />
-      <Tab.Screen name="Library" component={Library} />
       <Tab.Screen name="Suggested" component={Suggested} />
+      <Tab.Screen name="Library" component={Library} />
     </Tab.Navigator>
   );
 }
